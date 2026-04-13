@@ -7,6 +7,7 @@ services:
       - "5001:5000"
     depends_on:
       - app2
+      - mysql
     networks:
       - backend
 
@@ -14,10 +15,42 @@ services:
   app2:
     build: ./app2
     container_name: flask-app2
+    depends_on:
+      - app3
+      - mysql
     ports:
-      - "5002:5000"
+      - "5000"
     networks:
       - backend
+
+  app3:
+    build: ./app3
+    container_name: flask-app3
+    depends_on:
+      - mysql
+    ports:
+      - "5000"
+    networks:
+      - backend
+
+  mysql:
+    image: mysql:8.4
+    container_name: demo-mysql
+    restart: always
+    environment:
+      MYSQL_DATABASE: demo_db
+      MYSQL_USER: demo_user
+      MYSQL_PASSWORD: demo_pass
+      MYSQL_ROOT_PASSWORD: 12345
+    volumes:
+      - mysql_data:/var/lib/mysql
+    expose:
+      - "3306"  
+    networks:
+      - backend
+
+volumes:
+  mysql_data:
 
 networks:
   backend:
