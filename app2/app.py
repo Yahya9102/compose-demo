@@ -5,12 +5,13 @@ app = Flask(__name__)
 
 @app.route("/message", methods=["GET"])
 def get_message():
-    reponse = requests.get("http://app3:5000/message")
-    app3_data = reponse.json()
+    
+    #reponse = requests.get("http://app3:5000/message")
+    #app3_data = reponse.json()
     return {
-        "from": "app1",
-        "message": "Hej från app1",
-        "app2_response": app3_data
+        "from": "app2",
+        "message": "Hej från app2",
+       # "app2_response": app3_data
     }
 
 
